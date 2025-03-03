@@ -34,6 +34,7 @@ func main() {
 	if isDev {
 		// Development mode: Proxy to Vite dev server
 		viteDevURL := os.Getenv("VITE_DEV_URL")
+		log.Println("VITE DEV URL: ", viteDevURL)
 		viteDevServer, err := url.Parse(viteDevURL)
 		if err != nil {
 			log.Fatalf("Error parsing Vite dev server URL: %v", err)
