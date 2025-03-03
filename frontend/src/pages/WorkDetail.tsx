@@ -37,6 +37,28 @@ interface WorkDetails {
   images?: string[];
 }
 
+const workDetailsSampleData: WorkDetails = {
+  title: "Inkdrop",
+  period: "2016 - Present",
+  description:
+    "A Markdown note-taking app with 100+ plugins, cross-platform and encrypted data sync support. The life-time revenue is more than $1M.",
+  website: "https://www.inkdrop.app/",
+  platform: "Windows/macOS/Linux/iOS/Android",
+  stack: "Node.js, Electron, React Native",
+  blogPost: {
+    title:
+      "How I've Attracted The First 500 Paid Users For My SaaS That Costs $5/mo",
+    link: "https://blog.inkdrop.app/attracting-first-500-paid-users",
+  },
+  tagline: "Organizing your Markdown notes made simple",
+  // Multiple images for the slider
+  images: [
+    "https://placehold.co/800x400",
+    "https://placehold.co/800x400/333/white?text=Feature+Screenshot",
+    "https://placehold.co/800x400/222/white?text=Mobile+Version",
+  ],
+};
+
 const fetcher = async (url: string) => {
   const res = await fetch(url);
   const data = await res.json();
@@ -58,30 +80,6 @@ export default function WorkDetail() {
     error,
     isLoading,
   } = useSWR(`/api/works/${location?.state?.workDetailId}`, fetcher);
-
-  const workDetailsDataX: WorkDetails = {
-    title: "Inkdrop",
-    period: "2016 - Present",
-    description:
-      "A Markdown note-taking app with 100+ plugins, cross-platform and encrypted data sync support. The life-time revenue is more than $1M.",
-    website: "https://www.inkdrop.app/",
-    platform: "Windows/macOS/Linux/iOS/Android",
-    stack: "Node.js, Electron, React Native",
-    /*
-        blogPost: {
-            title: "How I've Attracted The First 500 Paid Users For My SaaS That Costs $5/mo",
-            link: "https://blog.inkdrop.app/attracting-first-500-paid-users",
-        },
-        *
-         */
-    tagline: "Organizing your Markdown notes made simple",
-    // Multiple images for the slider
-    images: [
-      "https://placehold.co/800x400",
-      "https://placehold.co/800x400/333/white?text=Feature+Screenshot",
-      "https://placehold.co/800x400/222/white?text=Mobile+Version",
-    ],
-  };
 
   const [workDetailState, setWorkDetailState] = useState<WorkDetails>();
   //setWorkDetailState()
@@ -206,6 +204,10 @@ export default function WorkDetail() {
     }
   }, [showDetails]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (isLoading) {
     return (
       <motion.div
@@ -270,7 +272,26 @@ export default function WorkDetail() {
                 asChild
                 className="text-lg font-medieval dark:text-amber-50/80  hover:dark:text-amber-50"
               >
-                <NavLink to={"/works"}>Works</NavLink>
+                <NavLink to={"/works"}>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      height="24"
+                      width="24"
+                    >
+                      <g className="" transform="translate(0,0)">
+                        <path
+                          d="M413.375 69.906L336.937 191.47l-8.25-32.69-30.218 88.97 62.655-29.375.22 29.438 127.03-50.938-70.813-1.97 47.782-68.686-73.47 39.25 21.5-95.564zM210.22 102.094l-32 14.406 16.874 55.656-177.813 80.03 12.564 27.876L207.656 200l30.406 49.47 49.313-22.19-21.344-70.343-55.81-54.843zM197.593 266.78v20.345h-88.906c15.994 38.807 51.225 65.43 88.906 74.28v32.97h58.562c-12.118 30.528-33.505 55.684-58.47 77.594H172.22v18.686H456.56V471.97h-27.406c-28.734-21.895-50.055-47.018-61.625-77.595h63.658v-29.188c19.748-6.995 39.5-19.51 59.25-36.687-19.812-17.523-39.23-27.25-59.25-31.938v-29.78H197.594z"
+                          fill="#FEF3C6E5"
+                        ></path>
+                      </g>
+                    </svg>
+                    <p className="text-lg font-medium dark:text-heading">
+                      Works
+                    </p>
+                  </div>
+                </NavLink>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="dark:text-amber-100" />
@@ -420,10 +441,7 @@ export default function WorkDetail() {
         {/* Expandable Detailed Description Section */}
         {(workDetailsData?.detailedDescription ||
           workDetailsData?.keyContributions) && (
-          <div
-            className="mt-8 border-t border-neutral-800 pt-4"
-            ref={detailsRef}
-          >
+          <div className="mt-6 pt-2" ref={detailsRef}>
             <button
               onClick={toggleDetails}
               className="w-full flex items-center justify-between py-2 px-1 hover:bg-neutral-800/20 rounded-md transition-colors duration-200 mb-4"
@@ -443,7 +461,7 @@ export default function WorkDetail() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.5, ease: "easeIn" }}
                 className="pb-4"
               >
                 {workDetailsData?.detailedDescription && (
