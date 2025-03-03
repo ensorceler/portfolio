@@ -30,7 +30,6 @@ func Connect() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	//uri := "mongodb://root:root%40123@188.245.203.93:27017/?directConnection=true"
 	uri := mongoURI
 	credential := options.Credential{
 		Username: mongoUsername,
