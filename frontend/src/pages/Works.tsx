@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import { Loader2 } from "lucide-react";
 
 interface Work {
   id: string;
@@ -61,9 +62,9 @@ export default function WorksPage() {
             Works
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6">
-          {workData &&
-            workData?.map(
+        {workData && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6">
+            {workData?.map(
               (work) =>
                 work?.type === "work" && (
                   <div key={work.id} className="rounded-lg overflow-hidden">
@@ -91,7 +92,21 @@ export default function WorksPage() {
                   </div>
                 )
             )}
-        </div>
+          </div>
+        )}
+        {isLoading && (
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="min-h-screen w-full h-full flex flex-col items-center justify-center"
+          >
+            <Loader2 className="w-10 h-10 text-neutral-400 animate-spin mb-4" />
+            <p className="text-sm font-medieval dark:text-neutral-400">
+              Loading work details...
+            </p>
+          </motion.div>
+        )}
       </section>
 
       <section className="mt-16 max-w-xl ml-auto mr-auto">
@@ -146,7 +161,7 @@ export default function WorksPage() {
                         <h3 className="text-xl font-semibold font-manuscript text-center mb-2 dark:text-title">
                           {collab.title}
                         </h3>
-                        <p className="text-sm text-neutral-500 dark:text-gray-400 text-center">
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400 text-left">
                           {collab.description}
                         </p>
                       </div>
