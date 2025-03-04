@@ -155,12 +155,37 @@ export default function WorkDetail() {
     }
   };
 
-  const fetchWorkDetail = async () => {
-    const workDetailId = location?.state?.workDetailId || "";
-    const res = await fetch(`/api/works/${workDetailId}`);
-    const data = await res.json();
-    if (data?.status === 200) {
-      setWorkDetailState(data?.data);
+  // Helper function to render website links
+  const renderWebsiteLinks = (website: string | string[]) => {
+    if (Array.isArray(website)) {
+      return (
+        <div className="flex flex-col ml-3 space-y-2">
+          {website.map((site, index) => (
+            <a
+              key={index}
+              href={site}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-neutral-400 hover:text-amber-200 transition-colors duration-200"
+            >
+              <span className="underline">{site}</span>
+              <ExternalLinkIcon className="w-4 h-4 ml-1" />
+            </a>
+          ))}
+        </div>
+      );
+    } else {
+      return (
+        <a
+          href={website}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center ml-3 text-neutral-400 hover:text-amber-200 transition-colors duration-200"
+        >
+          <span className="underline">{website}</span>
+          <ExternalLinkIcon className="w-4 h-4 ml-1" />
+        </a>
+      );
     }
   };
 
@@ -297,9 +322,9 @@ export default function WorkDetail() {
             <BreadcrumbSeparator className="dark:text-amber-100" />
             <BreadcrumbItem>
               <BreadcrumbPage>
-                <h2 className="font-manuscript text-lg font-medium dark:text-heading">
+                <h2 className="font-manuscript text-lg font-light dark:text-heading">
                   {workDetailsData?.title}
-                  <span className="text-xs ml-2 py-1 px-2 bg-neutral-800 dark:bg-amber-900/20 text-neutral-400 dark:text-amber-50/70 rounded-sm font-medieval">
+                  <span className="text-sm ml-2 py-1 px-2 bg-neutral-800 border text-neutral-400 dark:bg-neutral-800/80 dark:border-amber-100/20  dark:text-amber-100/80 rounded-sm font-medieval">
                     {workDetailsData?.period}
                   </span>
                 </h2>
@@ -381,23 +406,15 @@ export default function WorkDetail() {
         <div className="grid grid-cols-1 gap-4 mb-6">
           {/* Website Link */}
           <div className="flex items-center flex-wrap text-sm">
-            <span className="bg-neutral-800 text-neutral-300 rounded-md px-3 py-1 text-xs font-manuscript">
+            <span className="bg-neutral-800 text-neutral-300 border dark:bg-neutral-800/80 dark:border-amber-100/20  dark:text-amber-100/80  px-3 py-1 text-xs rounded-sm font-manuscript">
               WEBSITE
             </span>
-            <a
-              href={workDetailsData?.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center ml-3 text-neutral-400 hover:text-neutral-200 transition-colors duration-200"
-            >
-              <span className="underline">{workDetailsData?.website}</span>
-              <ExternalLinkIcon className="w-4 h-4 ml-1" />
-            </a>
+            {renderWebsiteLinks(workDetailsData.website)}
           </div>
 
           {/* Platform Section */}
           <div className="flex items-center flex-wrap text-sm">
-            <span className="bg-neutral-800 text-neutral-300 px-3 py-1 font-manuscript text-xs">
+            <span className="bg-neutral-800 text-neutral-300 border dark:bg-neutral-800/80 dark:border-amber-100/20  dark:text-amber-100/80  rounded-sm  px-3 py-1 font-manuscript text-xs">
               PLATFORM
             </span>
             <p className="dark:text-neutral-400 ml-3">
@@ -407,7 +424,7 @@ export default function WorkDetail() {
 
           {/* Tech Stack Section */}
           <div className="flex items-center flex-wrap text-sm">
-            <span className="bg-neutral-800 text-neutral-300 px-3 py-1 font-manuscript text-xs">
+            <span className="bg-neutral-800 text-neutral-300 border dark:bg-neutral-800/80 dark:border-amber-100/20  dark:text-amber-100/80  px-3 py-1 rounded-sm font-manuscript text-xs">
               TECH STACK
             </span>
             <p className="dark:text-neutral-400 ml-3">
@@ -419,7 +436,7 @@ export default function WorkDetail() {
           <>
             {workDetailsData?.blogPost && (
               <div className="flex items-center flex-wrap text-sm">
-                <span className="bg-neutral-800 text-neutral-300 px-3 py-1 font-manuscript text-xs">
+                <span className="bg-neutral-800 text-neutral-300 dark:bg-amber-950/30 dark:text-amber-100 px-3 py-1 font-manuscript rounded-sm text-xs">
                   BLOG POST
                 </span>
                 <a
@@ -486,7 +503,7 @@ export default function WorkDetail() {
                           (contribution, index) => (
                             <li
                               key={index}
-                              className="pl-4 border-l-2 border-amber-900/30 text-sm font-light dark:text-neutral-400"
+                              className="pl-4 border-l-2 border-amber-100/20 text-sm font-light dark:text-neutral-400"
                             >
                               {contribution}
                             </li>
