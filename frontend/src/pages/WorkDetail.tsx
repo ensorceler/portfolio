@@ -64,7 +64,7 @@ const fetcher = async (url: string) => {
   const data = await res.json();
   if (data?.status === 200) {
     //console.log("data");
-    console.log("work details =>", data);
+    //console.log("work details =>", data);
     return data?.data;
   } else {
     throw new Error("500");
@@ -349,7 +349,7 @@ export default function WorkDetail() {
             <img
               src={workDetailsData?.images[currentImageIndex]}
               alt={`${workDetailsData?.title} - Image ${currentImageIndex + 1}`}
-              className="w-full h-full object-cover transition-all duration-300"
+              className="w-full h-full max-h-[200px] md:max-h-[300px] object-cover transition-all duration-300"
             />
 
             {/* Image counter - positioned in the bottom right corner */}

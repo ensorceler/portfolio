@@ -20,7 +20,7 @@ const fetcher = async (url: string) => {
   const data = await res.json();
   if (data?.status === 200) {
     //console.log("data");
-    console.log("data", data);
+    //console.log("data", data);
     return data?.data;
   } else {
     throw new Error("500");
@@ -75,8 +75,9 @@ export default function WorksPage() {
                     >
                       <div className="relative w-full h-48 rounded-lg">
                         <img
-                          src={"https://placehold.co/600x400"}
-                          alt={work.title}
+                          src={work?.image}
+                          // alt={"https.co/800x400"}
+                          alt={`https://placehold.co/800x400/333/white?text=${work?.title}`}
                           className="rounded-lg object-cover w-full h-full"
                         />
                       </div>
@@ -146,8 +147,9 @@ export default function WorksPage() {
                     >
                       <div className="relative w-full h-40 overflow-hidden">
                         <img
-                          src={"https://placehold.co/600x400"}
-                          alt={collab.title}
+                          src={collab?.image}
+                          // alt={"https.co/800x400"}
+                          alt={`https://placehold.co/800x400/333/white?text=project`}
                           //style={{objectFit: 'cover'}}
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="object-cover"
